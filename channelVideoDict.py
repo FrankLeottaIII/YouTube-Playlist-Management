@@ -3,6 +3,8 @@
 #date Started: 1/8/2024
 #author: Frank R. Leotta III
 
+#Status: Working, but unpolished.  Also needs error handling.
+
 # Discription: This is a program that will get all the videos in a channel, and put them in a csv file.
 
 #   Suggested use:
