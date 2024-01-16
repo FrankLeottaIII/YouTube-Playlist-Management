@@ -1,6 +1,7 @@
-#project 5 
+#Project 5 
 #part: All videos in a channel
-#date Started: 1/8/2024
+
+#Date Started: 1/8/2024
 #author: Frank R. Leotta III
 
 #Status: Working, but unpolished.  Also needs error handling.
@@ -12,12 +13,12 @@
       # sometimes you just overlook videos due to the way youtube  loads the channel, and this will help me not miss any.
  
 
-
+###  imports:  ###
 import scrapetube
 import pandas as pd
 
 
-
+###  main code:  ###
 print("Hello, I will ask you for a channel id, and then I will give you all the videos in that channel\n")
 print(" You can find the channel Id by going to the channel and copying the last part of the url\n")
 print("example: https://www.youtube.com/channel/channel_Id\n")
@@ -36,3 +37,9 @@ for video in videos:
 df = pd.DataFrame.from_dict(video_dict, orient='index')#convert the dictionary to a dataframe with pandas
 df.to_csv('channelVideoDict.csv', header=False, encoding='utf-8') # save the dataframe to a csv file with UTF-8 encoding
 print(df)
+
+### NEED TO DO
+# break code into funtions
+# main() function
+# error handling
+# make it entertaining to read.

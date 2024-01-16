@@ -1,6 +1,7 @@
 #project 5 
-#part: Improvement
-#date: 1/8/2024
+#part: Playlist to cvs
+
+#Date Started: 1/8/2024
 #author: Frank R. Leotta III
 
 #Result:  The code works well, and does what it is intended.  Needs polish and error handling.

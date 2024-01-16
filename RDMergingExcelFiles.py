@@ -1,6 +1,15 @@
+#Project 5 
+#part: Excel file merger for playlist
+
+#Date Started: 1/8/2024
+#Author: Frank R. Leotta III
+
 #merging excel files
 
-#status: incomplete, not even running
+#status: Rough Draft: incomplete, not even running
+
+#Discription: T
+    #This program will take 2 or more excel files, and merge them into one file.
 
 import pandas as pd
 import os
