@@ -1,3 +1,16 @@
+#project 5 
+#part: All videos in a channel
+#date Started: 1/8/2024
+#author: Frank R. Leotta III
+
+# Discription: This is a program that will get all the videos in a channel, and put them in a csv file.
+
+#   Suggested use:
+      #This is to help me make a playlist of all the videos in a channel, so I can watch them in order.
+      # sometimes you just overlook videos due to the way youtube  loads the channel, and this will help me not miss any.
+ 
+
+
 import scrapetube
 import pandas as pd
 
