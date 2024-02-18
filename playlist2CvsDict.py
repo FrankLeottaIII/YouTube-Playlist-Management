@@ -4,7 +4,11 @@
 #Date Started: 1/8/2024
 #author: Frank R. Leotta III
 
+#Discription: This code takes a youtube playlist and converts it to a csv file.  The code uses the scrapetube library to get the playlist, and the pandas library to convert the dictionary to a csv file.  The code is intended to be used in a larger project that will use the csv file to create a playlist in youtube.
+
 #Result:  The code works well, and does what it is intended.  Needs polish and error handling.
+
+#ISSUES: if playlist is deleted, there is errors.  I made a python file to fix it but misplaced it.  I will have to make it again. :(
 
 #Note: #on to the next project, trying to make a playlist in youtube using the ones in the csv file.
 
