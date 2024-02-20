@@ -145,14 +145,14 @@ def write_cvs_heading(cvs_name: str): #no remove invalid char... yet
     This function will write the heading for the csv file.  8
     """
     writer = csv.writer(open(f'{cvs_name}.csv', 'w', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
-    writer.writerow(['ID', 'Video Title', 'Video Discription', 'Video Author','Video Publish Date', "Duration",'Video URL' "Tags"])
+    writer.writerow(['ID', 'Video Title', 'Video Author','Video Publish Date', "Duration",'Video URL', "Tags"])
 
 def ammend_1_row_cvs(dict1: dict, cvs_name: str):
     """Summary:
     writes a row to a cvs file using each key in the dictionary as a column
     """
     writer = csv.writer(open(f'{cvs_name}.csv', 'a', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
-    writer.writerow([dict1["ID"], dict1["Video Title"], dict1["Video Discription"], dict1["Video Author"], dict1["Video Publish Date"], dict1["Duration"], dict1["Video URL"], dict1["Tags"]])
+    writer.writerow([dict1["ID"], dict1["Video Title"], dict1["Video Author"], dict1["Video Publish Date"], dict1["Duration"], dict1["Video URL"], dict1["Tags"]])
 
 def ammend_cvs_7_from_dict2(dict: dict, cvs_name: str):
     """Summary:
@@ -198,7 +198,6 @@ def main():
     #part 2 - get video info
             video_info_list = []
     for i in playlist:
-        global cvs_name
         video_info = find_video_info_d(i)
         video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
         video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
