@@ -160,13 +160,38 @@ def main():
     """Summary:
     This function will run the program and call all relevent functions.
     """
-    
-    video_id = "-1pVLJl_snc" # 
-    video_info = find_video_info_d(video_id)
-    video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
-    video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
-    video_info["Tags"] = find_video_tags(video_id)
-    print(video_info)
+    cvs_name = input("what do you want to name the csv file? ")
+    cvs_name = str(cvs_name)
+    write_cvs_heading(cvs_name)
+    #
+    playlist= get_playlist()
+    print("\n\n")
+    print(playlist)
+    print("\n\n")
+    invalid_videos = []
+    for i in range(0, len(playlist)):
+        for  i in playlist:
+            if is_video_valid(i) == False:
+                invalid_videos.append(i)
+                playlist.remove(i)
+            else:
+                pass
+            #Part 1 ends here
+    #part 2 - get video info
+    for i in playlist:
+        video_info = find_video_info_d(i)
+        video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
+        video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
+        video_info["Tags"] = find_video_tags(i)
+        print(video_info)
+        ammend_cvs_7_from_dict(video_info, cvs_name)
+    print("The following videos are invalid: ")
+    print(invalid_videos)
+    print("\n\n")
+    print("The following videos are valid: ")
+    print(playlist)
+    print("\n\n")
+    print("The program has finished running.")
 
 
 
@@ -195,6 +220,41 @@ def main_part1():
             #     in a loop grab the video id from the playlist and use funtions to grab info on it,
             
 
+def main_part2():
+    """Summary:
+    Part 2 of main funtion, put here for reference  
+        
+    """
+    video_id = "-1pVLJl_snc" # 
+    video_info = find_video_info_d(video_id)
+    video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
+    video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
+    video_info["Tags"] = find_video_tags(video_id)
+    print(video_info)
+
+
+def ammend_cvs_7_from_dict(dict: dict, cvs_name: str):
+    """Summary:
+        gets videos from a dictionary and adds them to a cvs file by ammending the file   
+    
+    """
+    id = []
+    video_URL = []
+    Video_Title  = []
+    Video_Author = []
+    Video_Publish_Date = []
+    Video_Duration = []
+    Video_Tags = []
+    for i in dict:
+        ids = dict["ID"]
+        id.append(ids)
+        video_URL.append(dict["Video URL"])
+        Video_Title.append(dict["Video Title"])
+        Video_Author.append(dict["Video Author"])
+        Video_Publish_Date.append(dict["Video Publish Date"])
+        Video_Duration.append(dict["Duration"])
+        Video_Tags.append(dict["Tags"])
+        ammened_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
 
 
 
