@@ -39,6 +39,14 @@ filename = input("what do you want to name the csv file? ")
 filename = str(filename)
 df.to_csv(f'{filename}.csv', header=False, encoding='utf-8') # save the dataframe to a csv file with UTF-8 encoding
 
+#open the cvs file created:
+# with open (f'{filename}.csv', 'r') as file:
+#     print(file.read())
+# print
+
+
+
+
 """remember: 
 mydict = {'key1':value1,'key2':value2,'key3':value3,}
 """

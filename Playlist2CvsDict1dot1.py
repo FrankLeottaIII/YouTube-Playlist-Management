@@ -121,15 +121,13 @@ def write_cvs_7_from_list(id, video_urls, video_titles, video_author, video_publ
     for id, video_url, video_title, video_author, video_publish_date, video_duration, video_tags in zip(id, video_urls, video_titles, video_author, video_publish_date, duration, tags):
         writer.writerow([id, video_url, video_title, video_author, video_publish_date, video_duration, video_tags])
 
-def ammened_cvs_7_from_list(id, video_urls, video_titles, video_author, video_publish_date, duration, tags):
+def ammened_cvs_7_from_list(cvs_name, id, video_url, video_title, video_author, video_publish_date, duration, tags):
     """Summary:
     This function will ammend a csv file with the first row being 'ID', the second row being the video urls, the third row being 'Video Title', the fourth row being  video titles, the fifth row being video author, the 6th row being video publish date.
     This will only work for dictionaries, not lists.
     """
-    writer = csv.writer(open('playlistq.csv', 'a', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
-    writer.writerow(['ID','Video URL', 'Video Title', 'Video Author','Video Publish Date', "Duration", "Tags"])
-    for id, video_url, video_title, video_author, video_publish_date, video_duration, video_tags in zip(id, video_urls, video_titles, video_author, video_publish_date, duration, tags):
-        writer.writerow([id, video_url, video_title, video_author, video_publish_date, video_duration, video_tags])
+    writer = csv.writer(open(f'{cvs_name}.csv', 'a', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
+    writer.writerow([id, video_url, video_title, video_author, video_publish_date, duration, tags])
 
 def is_video_valid(video_id: str)->bool:
     """Summary:
@@ -178,11 +176,16 @@ def main():
                 pass
             #Part 1 ends here
     #part 2 - get video info
+    video_info_list = []
     for i in playlist:
         video_info = find_video_info_d(i)
         video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
         video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
         video_info["Tags"] = find_video_tags(i)
+        video_info_list.append(video_info)
+        print(video_info)
+    print("\nDone with that part, on to the next part.\n\n")
+    for video_info in video_info_list:
         print(video_info)
         ammend_cvs_7_from_dict(video_info, cvs_name)
     print("The following videos are invalid: ")
@@ -254,7 +257,7 @@ def ammend_cvs_7_from_dict(dict: dict, cvs_name: str):
         Video_Publish_Date.append(dict["Video Publish Date"])
         Video_Duration.append(dict["Duration"])
         Video_Tags.append(dict["Tags"])
-        ammened_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
+        ammened_cvs_7_from_list(cvs_name, id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
 
 
 
