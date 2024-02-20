@@ -144,8 +144,29 @@ def write_cvs_heading(cvs_name: str): #no remove invalid char... yet
     """Summary:
     This function will write the heading for the csv file.  8
     """
-    writer = csv.writer(open('cvs_name.csv', 'w', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
+    writer = csv.writer(open(f'{cvs_name}.csv', 'w', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
     writer.writerow(['ID', 'Video Title', 'Video Discription', 'Video Author','Video Publish Date', "Duration",'Video URL' "Tags"])
+
+def ammend_1_row_cvs(dict1: dict, cvs_name: str):
+    """Summary:
+    writes a row to a cvs file using each key in the dictionary as a column
+    """
+    writer = csv.writer(open(f'{cvs_name}.csv', 'a', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
+    writer.writerow([dict1["ID"], dict1["Video Title"], dict1["Video Discription"], dict1["Video Author"], dict1["Video Publish Date"], dict1["Duration"], dict1["Video URL"], dict1["Tags"]])
+
+def ammend_cvs_7_from_dict2(dict: dict, cvs_name: str):
+    """Summary:
+        MY ATTEMPT TO FIX THE AMMEND FUNCTION
+    """
+    id =dict["ID"]
+    video_URL = dict["Video URL"]
+    Video_Title  = dict["Video Title"]
+    Video_Author = dict["Video Author"]
+    Video_Publish_Date = dict["Video Publish Date"]
+    Video_Duration = dict["Duration"]
+    Video_Tags = dict["Tags"]
+    writer = csv.writer(open(f'{cvs_name}.csv', 'a', newline='', encoding='utf-8'))# the newline='' is to fix the double spacing
+    writer.writerow([id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags])
 
 
 
@@ -153,11 +174,13 @@ def write_cvs_heading(cvs_name: str): #no remove invalid char... yet
 ########Rewriting  find infor portion,
     
 ####rewriting ammend_cvs_7_from_list to cvs_8_from_list
-
+cvs_name = ""
 def main():
     """Summary:
     This function will run the program and call all relevent functions.
     """
+    global cvs_name
+    print("This program will take a youtube playlist and convert it to a csv file.")
     cvs_name = input("what do you want to name the csv file? ")
     cvs_name = str(cvs_name)
     write_cvs_heading(cvs_name)
@@ -172,22 +195,35 @@ def main():
             if is_video_valid(i) == False:
                 invalid_videos.append(i)
                 playlist.remove(i)
-            else:
-                pass
-            #Part 1 ends here
     #part 2 - get video info
-    video_info_list = []
+            video_info_list = []
     for i in playlist:
+        global cvs_name
         video_info = find_video_info_d(i)
         video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
         video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
         video_info["Tags"] = find_video_tags(i)
         video_info_list.append(video_info)
         print(video_info)
+        ammend_1_row_cvs(video_info, cvs_name)
+    time.sleep(5)
     print("\nDone with that part, on to the next part.\n\n")
+    time.sleep(20)
+    print("here is the video list info: ")
+    print(video_info_list)
+    time.sleep(5)
+    print("\n\n")
+    video_info_list = set(video_info_list)
+    print("\n\n")
+    print("here is the video list info, after set: ")
+    time.sleep(5)
+    print(video_info_list)
+    print("\n\n")
     for video_info in video_info_list:
         print(video_info)
-        ammend_cvs_7_from_dict(video_info, cvs_name)
+        ammend_cvs_7_from_dict2(video_info, cvs_name)
+        time.sleep(1)
+        break  # Add this line to break the loop after the first iteration
     print("The following videos are invalid: ")
     print(invalid_videos)
     print("\n\n")
@@ -198,135 +234,150 @@ def main():
 
 
 
-def main_part1():
-    """Summary:
-    part 1 of summery, encapsulates the first part of the program.  put here so i can use it later.
+# def main_part1():
+#     """Summary:
+#     part 1 of summery, encapsulates the first part of the program.  put here so i can use it later.
     
-    """
-    cvs_name = input("what do you want to name the csv file? ")
-    cvs_name = str(cvs_name)
-    write_cvs_heading(cvs_name)
-    #
-    playlist= get_playlist()
-    print("\n\n")
-    print(playlist)
-    invalid_videos = []
-    for i in range(0, len(playlist)):
-        for  i in playlist:
-            if is_video_valid(i) == False:
-                invalid_videos.append(i)
-                playlist.remove(i)
-            else:
-                pass
-            #Part 1 ends here
-            #psudo code:
-            #     in a loop grab the video id from the playlist and use funtions to grab info on it,
+#     """
+#     cvs_name = input("what do you want to name the csv file? ")
+#     cvs_name = str(cvs_name)
+#     write_cvs_heading(cvs_name)
+#     #
+#     playlist= get_playlist()
+#     print("\n\n")
+#     print(playlist)
+#     invalid_videos = []
+#     for i in range(0, len(playlist)):
+#         for  i in playlist:
+#             if is_video_valid(i) == False:
+#                 invalid_videos.append(i)
+#                 playlist.remove(i)
+#             else:
+#                 pass
+#             #Part 1 ends here
+#             #psudo code:
+#             #     in a loop grab the video id from the playlist and use funtions to grab info on it,
             
 
-def main_part2():
-    """Summary:
-    Part 2 of main funtion, put here for reference  
+# def main_part2():
+#     """Summary:
+#     Part 2 of main funtion, put here for reference  
         
-    """
-    video_id = "-1pVLJl_snc" # 
-    video_info = find_video_info_d(video_id)
-    video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
-    video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
-    video_info["Tags"] = find_video_tags(video_id)
-    print(video_info)
+#     """
+#     video_id = "-1pVLJl_snc" # 
+#     video_info = find_video_info_d(video_id)
+#     video_info["Video Publish Date"] = convert_datetime_to_month_day_year(video_info["Video Publish Date"])
+#     video_info["Duration"] = str(datetime.timedelta(seconds=video_info["Duration"]))
+#     video_info["Tags"] = find_video_tags(video_id)
+#     print(video_info)
 
 
-def ammend_cvs_7_from_dict(dict: dict, cvs_name: str):
-    """Summary:
-        gets videos from a dictionary and adds them to a cvs file by ammending the file   
+# def ammend_cvs_7_from_dict(dict: dict, cvs_name: str):
+#     """Summary:
+#         gets videos from a dictionary and adds them to a cvs file by ammending the file   
     
-    """
-    id = []
-    video_URL = []
-    Video_Title  = []
-    Video_Author = []
-    Video_Publish_Date = []
-    Video_Duration = []
-    Video_Tags = []
-    for i in dict:
-        ids = dict["ID"]
-        id.append(ids)
-        video_URL.append(dict["Video URL"])
-        Video_Title.append(dict["Video Title"])
-        Video_Author.append(dict["Video Author"])
-        Video_Publish_Date.append(dict["Video Publish Date"])
-        Video_Duration.append(dict["Duration"])
-        Video_Tags.append(dict["Tags"])
-        ammened_cvs_7_from_list(cvs_name, id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
+#     """
+#     id = []
+#     video_URL = []
+#     Video_Title  = []
+#     Video_Author = []
+#     Video_Publish_Date = []
+#     Video_Duration = []
+#     Video_Tags = []
+#     ids = dict["ID"]
+#     id.append(ids)
+#     video_URL.append(dict["Video URL"])
+#     Video_Title.append(dict["Video Title"])
+#     Video_Author.append(dict["Video Author"])
+#     Video_Publish_Date.append(dict["Video Publish Date"])
+#     Video_Duration.append(dict["Duration"])
+#     Video_Tags.append(dict["Tags"])
+#     ammened_cvs_7_from_list(cvs_name, id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
 
 
+#     # id = []
+#     # video_URL = []
+#     # Video_Title  = []
+#     # Video_Author = []
+#     # Video_Publish_Date = []
+#     # Video_Duration = []
+#     # Video_Tags = []
+#     # ids = dict["ID"]
+#     # id.append(ids)
+#     # video_URL.append(dict["Video URL"])
+#     # Video_Title.append(dict["Video Title"])
+#     # Video_Author.append(dict["Video Author"])
+#     # Video_Publish_Date.append(dict["Video Publish Date"])
+#     # Video_Duration.append(dict["Duration"])
+#     # Video_Tags.append(dict["Tags"])
+#     # ammened_cvs_7_from_list(cvs_name, id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
 
 
-def use_later(): 
-    """Summary:
-        code i may use later
-    """
-    #############
-    random_youtube_ids = []
-    # while True:
-    #     youtube_id = random_youtube_id_generator()
-    #     print(youtube_id)
-    #     print("\n")
-    #     time.sleep(2)
-    #     if is_video_valid(youtube_id):
-    #         random_youtube_ids.append(youtube_id)
-    #         if len(random_youtube_ids) == 1: #this is to test if the youtube ids are valid
-    #             print(random_youtube_ids)
-    #             break
+# def use_later(): 
+#     """Summary:
+#         code i may use later
+#     """
+#     #############
+#     random_youtube_ids = []
+#     # while True:
+#     #     youtube_id = random_youtube_id_generator()
+#     #     print(youtube_id)
+#     #     print("\n")
+#     #     time.sleep(2)
+#     #     if is_video_valid(youtube_id):
+#     #         random_youtube_ids.append(youtube_id)
+#     #         if len(random_youtube_ids) == 1: #this is to test if the youtube ids are valid
+#     #             print(random_youtube_ids)
+#     #             break
 
 
-    # print(random_youtube_ids)
-    print("n\n\n\n\n\n\n\"")
-    if len(random_youtube_ids) == 0:
-        print("There are no valid youtube ids.")
-    else:
-        print("There are valid youtube ids.")
-        print(random_youtube_ids)
-        failed_youtube_ids = []
-        id = []
-        video_URL = []
-        Video_Title  = []
-        Video_Author = []
-        Video_Publish_Date = []
-        Video_Duration = []
-        Video_Tags = []
+#     # print(random_youtube_ids)
+#     print("n\n\n\n\n\n\n\"")
+#     if len(random_youtube_ids) == 0:
+#         print("There are no valid youtube ids.")
+#     else:
+#         print("There are valid youtube ids.")
+#         print(random_youtube_ids)
+#         failed_youtube_ids = []
+#         id = []
+#         video_URL = []
+#         Video_Title  = []
+#         Video_Author = []
+#         Video_Publish_Date = []
+#         Video_Duration = []
+#         Video_Tags = []
         
-        iD = "aolI_Rz0ZqY"
-        varible = find_video_info_d(iD)
-        varible["Video Publish Date"] = convert_datetime_to_month_day_year(varible["Video Publish Date"])
-        varible["Duration"] = str(datetime.timedelta(seconds=varible["Duration"]))
-        varible["Tags"] = find_video_tags(id)
-        id.append(varible["ID"])
-        video_URL.append(varible["Video URL"])
-        Video_Title.append(varible["Video Title"])
-        Video_Author.append(varible["Video Author"])
-        Video_Publish_Date.append(varible["Video Publish Date"])
-        Video_Duration.append(varible["Duration"])
-        Video_Tags.append(varible["Tags"])
-        print ("this is a test\n\n")
-        # print(varible)
+#         iD = "aolI_Rz0ZqY"
+#         varible = find_video_info_d(iD)
+#         varible["Video Publish Date"] = convert_datetime_to_month_day_year(varible["Video Publish Date"])
+#         varible["Duration"] = str(datetime.timedelta(seconds=varible["Duration"]))
+#         varible["Tags"] = find_video_tags(id)
+#         id.append(varible["ID"])
+#         video_URL.append(varible["Video URL"])
+#         Video_Title.append(varible["Video Title"])
+#         Video_Author.append(varible["Video Author"])
+#         Video_Publish_Date.append(varible["Video Publish Date"])
+#         Video_Duration.append(varible["Duration"])
+#         Video_Tags.append(varible["Tags"])
+#         print ("this is a test\n\n")
+#         # print(varible)
 
-        write_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
-        for id in random_youtube_ids:
-            varible = find_video_info_d(id)
+#         write_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
+#         for id in random_youtube_ids:
+#             varible = find_video_info_d(id)
 
-            varible["Video Publish Date"] = convert_datetime_to_month_day_year(varible["Video Publish Date"])
-            varible["Duration"] = str(datetime.timedelta(seconds=varible["Duration"]))
-            varible["Tags"] = find_video_tags(id)
-            id.append(varible["ID"]) #string object has no attribute append... this is the error
-            video_URL.append(varible["Video URL"])
-            Video_Title.append(varible["Video Title"])
-            Video_Author.append(varible["Video Author"])
-            Video_Publish_Date.append(varible["Video Publish Date"])
-            Video_Duration.append(varible["Duration"])
-            Video_Tags.append(varible["Tags"])
-            print(varible)
-            ammened_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
+#             varible["Video Publish Date"] = convert_datetime_to_month_day_year(varible["Video Publish Date"])
+#             varible["Duration"] = str(datetime.timedelta(seconds=varible["Duration"]))
+#             varible["Tags"] = find_video_tags(id)
+#             id.append(varible["ID"]) #string object has no attribute append... this is the error
+#             video_URL.append(varible["Video URL"])
+#             Video_Title.append(varible["Video Title"])
+#             Video_Author.append(varible["Video Author"])
+#             Video_Publish_Date.append(varible["Video Publish Date"])
+#             Video_Duration.append(varible["Duration"])
+#             Video_Tags.append(varible["Tags"])
+#             print(varible)
+#             ammened_cvs_7_from_list(id, video_URL, Video_Title, Video_Author, Video_Publish_Date, Video_Duration, Video_Tags)
 
 if __name__ == "__main__":
     main()
