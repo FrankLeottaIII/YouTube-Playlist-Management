@@ -6,7 +6,9 @@
 
 #Original Discription: This code takes a youtube playlist and converts it to a csv file.  The code uses the scrapetube library to get the playlist, and the pandas library to convert the dictionary to a csv file.  The code is intended to be used in a larger project that will use the csv file to create a playlist in youtube.
 
-#Current Discription: This is an upgraded version of playlist2cvsDict.py.  
+#Current Discription: This is an upgraded version of playlist2cvsDict.py.
+
+#warning: this version sadly only copies the first 100 videos in a playlist... and if a playlist is full of shorts, will not work at all.  I will have to fix this in the next version.  
 
 
 #Work on: Investigating ship youtube cvs format, to match. Rewriting  find infor portion,    rewriting ammend_cvs_7_from_list to cvs_8_from_list, 
